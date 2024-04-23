@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Registration Form</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        background-image: url("static/banner.jpg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 20px auto;
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        color: #333;
+        text-align: center;
+      }
+
+      .error {
+        color: red;
+        font-weight: bold;
+      }
+
+      .input-group {
+        margin-bottom: 15px;
+      }
+
+      .input-group label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      .input-group input,
+      .input-group select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+
+      button {
+        width: auto;
+        padding: 5px 10px;
+        font-size: 0.9em;
+        background-color: #5c6bc0;
+        color: white;
+        border: none;
+        border-radius: 1px;
+        cursor: pointer;
+      }
+
+      .login-link {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .login-link a {
+        color: #3f51b5;
+        text-decoration: none;
+      }
+
+      .confirmation-popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        justify-content: center;
+        align-items: center;
+      }
+
+      .confirmation-popup-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        text-align: center;
+      }
+
+      .confirmation-popup-buttons {
+        margin-top: 20px;
+      }
+
+      .confirmation-popup-buttons button {
+        margin: 0 10px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .confirmation-popup-buttons .confirm-button {
+        background-color: #5c6bc0;
+        color: white;
+      }
+
+      .confirmation-popup-buttons .cancel-button {
+        background-color: #ef5350;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Registration Form</h2>
+      <div class="error" id="password-error"></div>
+      <form id="registrationForm" method="POST">
+        <div class="input-group">
+          <label for="firstName">First Name:</label>
+          <input type="text" id="firstName" name="firstName" required />
+        </div>
+        <div class="input-group">
+          <label for="lastName">Lastname:</label>
+          <input type="text" id="lastName" name="lastName" required />
+        </div>
+        <div class="input-group">
+          <label for="contactNo">Contact No.:</label>
+          <input type="tel" id="contactNo" name="contactNo" required />
+        </div>
+        <div class="input-group">
+          <label for="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            required
+            minlength="7"
+          />
+        </div>
+        <div class="input-group">
+          <label for="confirmPassword">Confirm Password:</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            required
+            minlength="7"
+          />
+        </div>
+        <div class="input-group">
+          <label for="emergencyContact">Emergency Contact:</label>
+          <input
+            type="tel"
+            id="emergencyContact"
+            name="emergencyContact"
+            required
+          />
+        </div>
+        <div class="input-group">
+          <label for="nationalID">National ID:</label>
+          <input type="text" id="nationalID" name="nationalID" required />
+        </div>
+        <div class="input-group">
+          <label for="house">House:</label>
+          <input type="text" id="house" name="house" required />
+        </div>
+        <div class="input-group">
+          <label for="street">Street:</label>
+          <input type="text" id="street" name="street" required />
+        </div>
+        <div class="input-group">
+          <label for="area">Area:</label>
+          <input type="text" id="area" name="area" required />
+        </div>
+        <div class="input-group">
+          <label for="city">City:</label>
+          <input type="text" id="city" name="city" required />
+        </div>
+        <div class="input-group">
+          <label for="userType">User Type:</label>
+          <select id="userType" name="userType" required>
+            <option value="Customer">Customer</option>
+            <option value="Employee">Employee</option>
+          </select>
+        </div>
+        <button type="submit" id="confirmRegistration">
+          Confirm Registration
+        </button>
+      </form>
+
+      <div class="login-link">
+        Already have an account? Try <a href="/">Logging In</a> Instead.
+      </div>
+    </div>
+
+    <script>
+      const passwordField = document.getElementById("password");
+      const confirmPasswordField = document.getElementById("confirmPassword");
+      const passwordError = document.getElementById("password-error");
+      const confirmationPopup = document.getElementById("confirmationPopup");
+      const userIDSpan = document.getElementById("userID");
+      const confirmRegistrationButton = document.getElementById(
+        "confirmRegistration"
+      );
+      const cancelRegistrationButton =
+        document.getElementById("cancelRegistration");
+      const confirmPopupButton = document.getElementById("confirmPopup");
+      const cancelPopupButton = document.getElementById("cancelPopup");
+
+      // Password validation
+      confirmPasswordField.addEventListener("input", () => {
+        if (passwordField.value !== confirmPasswordField.value) {
+          passwordError.innerText = "Passwords do not match!";
+        } else {
+          passwordError.innerText = "";
+        }
+      });
+
+      passwordField.addEventListener("focus", () => {
+        passwordError.innerText = "Passwords must be at least 7 characters";
+      });
+
+      confirmRegistrationButton.addEventListener("click", () => {
+        if (passwordField.value !== confirmPasswordField.value) {
+          passwordError.innerText = "Passwords do not match!";
+        } else if (passwordField.value.length < 7) {
+          passwordError.innerText = "Passwords must be at least 7 characters";
+        } else {
+          passwordError.innerText = "";
+          confirmationPopup.style.display = "block";
+        }
+      });
+
+      cancelRegistrationButton.addEventListener("click", () => {
+        window.location.href = "/";
+      });
+
+      confirmPopupButton.addEventListener("click", () => {
+        const userType = document.getElementById("userType").value;
+        const randomID = generateRandomID(userType);
+        userIDSpan.innerText = randomID;
+        confirmationPopup.style.display = "none";
+        window.location.href = "/";
+      });
+
+      cancelPopupButton.addEventListener("click", () => {
+        confirmationPopup.style.display = "none";
+      });
+
+      function generateRandomID(userType) {
+        const digits = Math.floor(Math.random() * 9000) + 1000;
+        const userTypeDigit = userType === "Employee" ? "1" : "0";
+        return digits + userTypeDigit;
+      }
+    </script>
+  </body>
+</html>

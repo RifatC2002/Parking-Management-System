@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Checkout</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        background-image: url("static/banner.jpg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+      .container {
+        max-width: 600px;
+        margin: 20px auto;
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      h2 {
+        color: #333;
+        text-align: center;
+      }
+      .input-group {
+        margin-bottom: 15px;
+      }
+      .input-group label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      .input-group input,
+      .input-group select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      button {
+        width: auto;
+        padding: 5px 10px;
+        font-size: 0.9em;
+        background-color: #5c6bc0;
+        color: white;
+        border: none;
+        border-radius: 1px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #3f51b5;
+      }
+      .confirmation-popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        justify-content: center;
+        align-items: center;
+      }
+      .confirmation-popup-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        text-align: center;
+      }
+      .confirmation-popup-buttons {
+        margin-top: 20px;
+      }
+      .confirmation-popup-buttons button {
+        margin: 0 10px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .confirmation-popup-buttons .confirm-button {
+        background-color: #5c6bc0;
+        color: white;
+      }
+      .confirmation-popup-buttons .cancel-button {
+        background-color: #ef5350;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Checkout</h2>
+      <form id="checkoutForm" method="POST">
+        <div class="input-group">
+          <label for="BookingID">Booking ID:</label>
+          <select name="bookingID" id="bookingID">
+            {% if bookings %}
+            {% for booking in bookings %}
+            <option value="{{ booking.BookingID }}">{{ booking.BookingID }}</option>
+            {% endfor %}
+            {% else %}
+            <option value="No bookings">No bookings</option>
+            {% endif %}
+          </select>
+        <div class="input-group">
+          <label for="checkoutDate">Date:</label>
+          <input type="date" id="checkoutDate" name="checkoutDate" required />
+        </div>
+        <div class="input-group">
+          <label for="extraTime">Extra Time:</label>
+          <select id="extraTime" name="extraTime" required>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="damageDone">Damage Done:</label>
+          <select id="damageDone" name="damageDone" required>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="typeOfDamage">Type of Damage:</label>
+          <input type="text" id="typeOfDamage" name="typeOfDamage" />
+        </div>
+        <div class="input-group">
+          <label for="compensationAmount">Compensation Amount:</label>
+          <input
+            type="number"
+            id="compensationAmount"
+            name="compensationAmount"
+          />
+        </div>
+        <div class="input-group">
+          <label for="finalPayableAmount">Final Payable Amount:</label>
+          <input
+            type="number"
+            id="finalPayableAmount"
+            name="finalPayableAmount"
+          />
+        </div>
+        <button type="submit" id="confirmCheckout">Confirm Checkout</button>
+      </form>
+    </div>
+  </body>
+</html>

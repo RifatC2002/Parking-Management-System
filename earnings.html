@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Earnings</title>
+    <style>
+      body {
+          font-family: Arial, sans-serif;
+          background-color: #f4f4f4;
+          margin: 0;
+          padding: 0;
+          background-image: url('static/banner.jpg');
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size:100% 100%
+          background-attachment: fixed; /* Ensures the background covers the entire viewport */
+
+      }
+      .container {
+          max-width: 800px;
+          margin: 20px auto;
+          padding: 20px;
+          background: white;
+          border-radius: 5px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      h2 {
+          text-align: center;
+          color: #333;
+      }
+      table {
+          width: 100%;
+          border-collapse: collapse;
+      }
+      th, td {
+          border: 1px solid #ddd;
+          padding: 8px;
+          text-align: left;
+      }
+      th {
+          background-color: #5C6BC0;
+          color: white;
+      }
+      tr:nth-child(even) {
+          background-color: #f2f2f2;
+      }
+      .total-row {
+          font-weight: bold;
+          background-color: #5C6BC0;
+          color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Earnings</h2>
+      <table>
+        <tr>
+          <th>User ID</th>
+          <th>User Name</th>
+          <th>Amount Paid</th>
+        </tr>
+        {% for earning in earnings %}
+        <tr>
+          <td>{{ earning.UserID }}</td>
+          <td>{{ earning.FirstName }} {{earning.LastName}}</td>
+          <td>${{ earning.Amount }}</td>
+        </tr>
+        {% endfor %}
+        <tr class="total-row">
+          <td colspan="2" style="color: black">Total Earnings</td>
+          <td style="color: black">${{ total_earnings.TotalEarnings }}</td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

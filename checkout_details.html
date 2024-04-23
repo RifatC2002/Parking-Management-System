@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout Details</title>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Checkout Details</h2>
+      <p>Booking ID: {{ booking_details.booking_id }}</p>
+      <p>Vehicle Type: {{ booking_details.vehicle_type }}</p>
+
+      <h3>Checkout Form</h3>
+      <form
+        id="checkoutForm"
+        action="{{ url_for('checkout_details', booking_id=booking_details.booking_id) }}"
+        method="post"
+      >
+        <div class="input-group">
+          <label for="damageDone">Damage Done:</label>
+          <select id="damageDone" name="damageDone">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="typeOfDamage">Type of Damage:</label>
+          <input type="text" id="typeOfDamage" name="typeOfDamage" required />
+        </div>
+        <div class="input-group">
+          <label for="compensationAmount">Compensation Amount:</label>
+          <input
+            type="number"
+            step="0.01"
+            id="compensationAmount"
+            name="compensationAmount"
+            required
+          />
+        </div>
+        <div class="input-group">
+          <label for="extraTime">Extra Time (hours):</label>
+          <input type="number" id="extraTime" name="extraTime" required />
+        </div>
+        <button type="submit">Submit Checkout</button>
+      </form>
+    </div>
+  </body>
+</html>

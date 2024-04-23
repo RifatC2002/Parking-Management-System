@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cancel Booking</title>
+    <!-- Add your styles here if needed -->
+  </head>
+  <body>
+    <div class="container">
+      <h2>Cancel Booking</h2>
+      {% if bookings %}
+      <p>Your Bookings:</p>
+      <form
+        id="cancelBookingForm"
+        action="{{ url_for('cancel_booking') }}"
+        method="post"
+      >
+        <ul>
+          {% for booking in bookings %}
+          <li>
+            Booking ID: {{ booking.BookingID }} | Vehicle Type: {{
+            booking.VehicleType }} | Slot ID: {{ booking.SlotID }}
+            <input
+              type="hidden"
+              name="bookingID"
+              value="{{ booking.BookingID }}"
+            />
+            <button type="submit">Cancel</button>
+          </li>
+          {% endfor %}
+        </ul>
+      </form>
+      {% else %}
+      <p>No bookings found.</p>
+      {% endif %}
+      <!-- Add links or messages as needed -->
+    </div>
+  </body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pending Requests</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        background-image: url("static/banner.jpg");
+        background-position: centre;
+        background-repeat: no-repeat;
+        background-size: cover;
+        color: #333;
+      }
+      .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background: white;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      h2 {
+        text-align: center;
+        color: #333;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #5c6bc0;
+        color: white;
+      }
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+      .action-buttons {
+        text-align: right;
+      }
+      .action-buttons button {
+        margin-left: 10px;
+        padding: 5px 15px;
+        font-size: 0.9em;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .approve-btn {
+        background-color: #4caf50;
+        color: white;
+      }
+      .deny-btn {
+        background-color: #f44336;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Pending Requests</h2>
+      <table>
+        <tr>
+          <th>Booking ID</th>
+          <th>User Name</th>
+          <th>Vehicle Type</th>
+          <th>Actions</th>
+        </tr>
+        {% for booking in bookings %}
+        <tr>
+          <td>{{ booking.BookingID }}</td>
+          <td>{{ booking.OwnerName }}</td>
+          <td>{{ booking.VehicleType }}</td>
+          <td class="action-buttons">
+            <form method="post">
+              <input
+                type="hidden"
+                name="bookingID"
+                value="{{ booking.BookingID }}"
+              />
+              <input type="hidden" name="action" value="approve" />
+              <button type="submit" class="approve-btn">Approve</button>
+            </form>
+            <form method="post">
+              <input
+                type="hidden"
+                name="bookingID"
+                value="{{ booking.BookingID }}"
+              />
+              <input type="hidden" name="action" value="deny" />
+              <button type="submit" class="deny-btn">Deny</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </body>
+</html>

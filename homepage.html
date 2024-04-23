@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home Page</title>
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Arial, sans-serif;
+        background-image: url("static/banner.jpg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 500px;
+        background: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .button {
+        background-color: #4caf50;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .button:hover {
+        background-color: #3f51b5;
+      }
+      .dialog-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+      }
+      .dialog-box {
+        position: fixed;
+        width: 300px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+      }
+      .dialog-box button {
+        margin: 10px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      .dialog-box button.ok-button {
+        background-color: #2196f3;
+        color: white;
+      }
+      .dialog-box button.cancel-button {
+        background-color: #f44336;
+        color: white;
+      }
+      .dialog-box button:hover {
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Welcome to the Homepage</h2>
+      <button class="button" id="bookSlot">Book a Slot</button>
+      <button class="button" id="cancelBooking">Cancel Booking</button>
+      <button class="button" onclick="window.location.href='/logout'">
+        Logout
+      </button>
+    </div>
+
+    <!-- Custom Dialog HTML -->
+    <div class="dialog-overlay" id="dialogOverlay">
+      <div class="dialog-box" id="dialogBox">
+        <p>Are you sure you want to cancel your booking?</p>
+        <button class="ok-button" onclick="confirmCancellation()">Yes</button>
+        <button class="cancel-button" onclick="hideDialog()">No</button>
+      </div>
+    </div>
+
+    <!-- Add this script inside the head or body of your HTML document -->
+    <script>
+      // JavaScript for Dialog Control
+      function cancelBooking() {
+        document.getElementById("dialogOverlay").style.display = "block";
+      }
+
+      function hideDialog() {
+        document.getElementById("dialogOverlay").style.display = "none";
+      }
+
+      async function confirmCancellation() {
+        hideDialog();
+
+        // Add server-side cancellation logic here using fetch
+        const response = await fetch("/cancel_booking", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({}),
+        });
+
+        if (response.ok) {
+          alert("Your booking is cancelled.");
+          // Add any additional client-side logic after successful cancellation
+        } else {
+          alert("Failed to cancel booking. Please try again.");
+        }
+      }
+
+      document
+        .getElementById("cancelBooking")
+        .addEventListener("click", cancelBooking);
+
+      document
+        .getElementById("bookSlot")
+        .addEventListener("click", function () {
+          window.location.href = "/book_a_slot"; // Redirect to the booking page
+        });
+    </script>
+  </body>
+</html>
